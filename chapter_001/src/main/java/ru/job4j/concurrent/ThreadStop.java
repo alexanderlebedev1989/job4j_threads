@@ -4,14 +4,13 @@ public class ThreadStop {
     public static void main(String[] args) throws InterruptedException {
         Thread progress = new Thread(
                 () -> {
-                    try {
-                        while (!Thread.currentThread().isInterrupted()) {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        try {
                             System.out.println("start ...");
-                            Thread.sleep(500);
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                         }
-                    } catch (InterruptedException e) {
-                        System.out.println(Thread.currentThread().isInterrupted());
-                        System.out.println(Thread.currentThread().getState());
                     }
                 }
         );
