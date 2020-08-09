@@ -1,59 +1,37 @@
 package ru.job4j.io;
 
-import java.io.*;
+import java.io.File;
 
 public class ParseFile {
-    private volatile File file;
+    public static void main(String[] args) throws InterruptedException {
 
-    public synchronized void setFile(File f) {
-        file = f;
-    }
+        String content1 = "content.txt";
+        String content2 = "content_new.txt";
+        File file = new File("test.txt");
 
-    public synchronized File getFile() {
-        return file;
-    }
+        IRead read = new ReadContent();
+        IWrite write = new WriteContent(read, file);
 
-    public String getContent() {
-        StringBuilder builder = new StringBuilder();
-        try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(file))) {
-            byte[] dataBuffer = new byte[1024];
-            int data;
-            while ((data = i.read(dataBuffer, 0, 1024)) != -1) {
-                builder.append((char) data);
+        Worker worker1 = new Worker(read, write, content1);
+        Worker worker2 = new Worker(read, write, content2);
+
+        Thread thread1 = new Thread(worker1::writeText);
+        Thread thread2 = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
-    }
+            worker2.writeText();
+        });
+        System.out.println("Workers starting...");
 
+        thread1.start();
+        thread2.start();
+        thread1.join();
+        thread2.join();
 
-    public String getContentWithoutUnicode() {
-        StringBuilder builder = new StringBuilder();
-        try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(file))) {
-            byte[] dataBuffer = new byte[1024];
-            int data;
-            while ((data = i.read(dataBuffer, 0, 1024)) != -1) {
-                if (data < 0x80) {
-                    builder.append((char) data);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
-    }
-
-    public void saveContent(String content) {
-        try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(content));
-             BufferedOutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
-            byte[] dataBuffer = new byte[1024];
-            int data;
-            while ((data = i.read(dataBuffer, 0, 1024)) != -1) {
-                o.write(dataBuffer, 0, data);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Workers finished...");
     }
 }
+
