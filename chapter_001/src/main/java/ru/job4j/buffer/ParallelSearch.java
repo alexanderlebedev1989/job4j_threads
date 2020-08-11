@@ -7,11 +7,11 @@ public class ParallelSearch {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(3);
         final Thread consumer = new Thread(
                 () -> {
-                    while (!Thread.currentThread().isInterrupted()) {
+                    while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println("Deleted item: " + queue.poll());
                         } catch (InterruptedException e) {
-                            System.out.println("Нить закончила работу");
+                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
