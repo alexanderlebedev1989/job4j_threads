@@ -2,6 +2,7 @@ package ru.job4j.queue;
 
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -23,6 +24,7 @@ public class SimpleBlockingQueue<T> {
             }
             queue.offer(value);
             System.out.println("Add element: " + value);
+            System.out.println("Queue size is: " + queue.size());
             this.notify();
         }
     }
@@ -33,9 +35,12 @@ public class SimpleBlockingQueue<T> {
                 this.wait();
             }
             T value = queue.poll();
-            System.out.println("Queue size is: " + queue.size());
             this.notify();
             return value;
         }
+    }
+
+    public synchronized boolean isEmpty() {
+        return queue.size() == 0;
     }
 }
