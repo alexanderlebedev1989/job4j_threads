@@ -13,32 +13,20 @@ public class CountBarrier {
 
     public void count() throws InterruptedException {
         synchronized (monitor) {
-            System.out.println("Первый поток проснулся");
-            while (true) {
-                System.out.println("Counter is: " + count++);
-                if (count == total) {
-                    monitor.notify();
-                    break;
-                }
-            }
-            Thread.sleep(1000);
+            count++;
+            monitor.notify();
         }
     }
 
     public void await() {
         synchronized (this) {
-            while (true) {
-                if (count != total) {
-                    try {
-                        monitor.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println("Total equally counter");
-                    System.out.println("Второй поток проснулся");
-                    break;
+            try {
+                while (count != total) {
+                    System.out.println(String.format("%s wait", Thread.currentThread().getName()));
+                    monitor.wait();
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
