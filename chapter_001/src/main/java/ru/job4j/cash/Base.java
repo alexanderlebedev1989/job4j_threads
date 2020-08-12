@@ -5,10 +5,9 @@ public class Base {
     private String name;
     private int version;
 
-    public Base(int id, String name, int version) {
+    public Base(int id, String name) {
         this.id = id;
         this.name = name;
-        this.version = version;
     }
 
     public int getId() {
@@ -19,8 +18,8 @@ public class Base {
         return version;
     }
 
-    public void changeVersion() {
-        version++;
+    public void changeVersion(int version) {
+        this.version = version;
     }
 
     public void setName(String name) {

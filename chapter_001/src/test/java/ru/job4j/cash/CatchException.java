@@ -10,13 +10,13 @@ public class CatchException {
     @Test
     public void whenThrowException() throws InterruptedException {
         Cash cash = new Cash();
-        Base base = new Base(1, "name", 0);
+        Base base = new Base(1, "name");
         cash.add(base);
         AtomicReference<Exception> opt = new AtomicReference<>();
         Thread thread1 = new Thread(
                 () -> {
                     try {
-                        cash.update(new Base(1, "test1", 1));
+                        cash.update(new Base(1, "test1"));
                     } catch (Exception e) {
                         opt.set(e);
                     }
@@ -25,7 +25,8 @@ public class CatchException {
         Thread thread2 = new Thread(
                 () -> {
                     try {
-                        cash.update(new Base(1, "test2", 1));
+                        Thread.sleep(1000);
+                        cash.update(new Base(1, "test2"));
                     } catch (Exception e) {
                         opt.set(e);
                     }

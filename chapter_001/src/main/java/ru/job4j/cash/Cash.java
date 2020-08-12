@@ -15,9 +15,9 @@ public class Cash {
             if (data.getVersion() != model.getVersion()) {
                 throw new OptimisticException("version has already changed");
             }
-            data.changeVersion();
+            data.changeVersion(data.getVersion() + 1);
             data.setName(model.getName());
-            return model;
+            return data;
         });
     }
 
