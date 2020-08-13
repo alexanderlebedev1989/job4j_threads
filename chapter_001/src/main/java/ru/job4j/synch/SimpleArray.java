@@ -47,6 +47,7 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         int expectedModCount = modCount;
         return new Iterator<>() {
+
             @Override
             public boolean hasNext() {
                 return position != size;
@@ -63,5 +64,13 @@ public class SimpleArray<T> implements Iterable<T> {
                 return (T) array[position++];
             }
         };
+    }
+
+    public SimpleArray<T> createCopy() {
+        SimpleArray<T> copy = new SimpleArray<T>();
+        for (Object model: array) {
+            copy.add((T) model);
+        }
+        return copy;
     }
 }

@@ -19,11 +19,6 @@ public class SingleLockList<T> implements Iterable<T> {
 
     @Override
     public synchronized Iterator<T> iterator() {
-        return copy(list).iterator();
-    }
-
-    public SimpleArray<T> copy(SimpleArray<T> list) {
-        SimpleArray<T> array = list;
-        return array;
+        return list.createCopy().iterator();
     }
 }
