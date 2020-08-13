@@ -66,11 +66,11 @@ public class SimpleArray<T> implements Iterable<T> {
         };
     }
 
-    public SimpleArray<T> createCopy() {
-        SimpleArray<T> copy = new SimpleArray<T>();
+    public SimpleArray<T> copy() {
+        SimpleArray<T> copyList = new SimpleArray<T>();
         for (Object model: array) {
-            copy.add((T) model);
+            copyList.add((T) model);
         }
-        return copy;
+        return copyList;
     }
 }
