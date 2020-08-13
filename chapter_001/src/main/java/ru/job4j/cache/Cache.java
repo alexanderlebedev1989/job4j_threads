@@ -1,17 +1,17 @@
-package ru.job4j.cash;
+package ru.job4j.cache;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Cash {
+public class Cache {
 
-    private final ConcurrentHashMap<Integer, Base> storageCash = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, Base> cache = new ConcurrentHashMap<>();
 
     public void add(Base model) {
-        storageCash.put(model.getId(), model);
+        cache.put(model.getId(), model);
     }
 
     public void update(Base model) throws OptimisticException {
-        storageCash.computeIfPresent(model.getId(), (id, data) -> {
+        cache.computeIfPresent(model.getId(), (id, data) -> {
             if (data.getVersion() != model.getVersion()) {
                 throw new OptimisticException("version has already changed");
             }
@@ -22,10 +22,6 @@ public class Cash {
     }
 
     public void delete(Base model) {
-        storageCash.remove(model.getId(), model);
-    }
-
-    public ConcurrentHashMap<Integer, Base> getStorageCash() {
-        return storageCash;
+        cache.remove(model.getId(), model);
     }
 }

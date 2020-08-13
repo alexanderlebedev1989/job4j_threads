@@ -1,22 +1,22 @@
-package ru.job4j.cash;
+package ru.job4j.cache;
 
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.concurrent.atomic.AtomicReference;
 import static org.hamcrest.core.Is.is;
 
-public class CatchException {
+public class CacheException {
 
     @Test
     public void whenThrowException() throws InterruptedException {
-        Cash cash = new Cash();
+        Cache cache = new Cache();
         Base base = new Base(1, "name");
-        cash.add(base);
+        cache.add(base);
         AtomicReference<Exception> opt = new AtomicReference<>();
         Thread thread1 = new Thread(
                 () -> {
                     try {
-                        cash.update(new Base(1, "test1"));
+                        cache.update(new Base(1, "test1"));
                     } catch (Exception e) {
                         opt.set(e);
                     }
@@ -26,7 +26,7 @@ public class CatchException {
                 () -> {
                     try {
                         Thread.sleep(1000);
-                        cash.update(new Base(1, "test2"));
+                        cache.update(new Base(1, "test2"));
                     } catch (Exception e) {
                         opt.set(e);
                     }
