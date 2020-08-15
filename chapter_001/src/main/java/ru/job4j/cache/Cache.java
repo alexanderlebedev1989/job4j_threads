@@ -3,7 +3,6 @@ package ru.job4j.cache;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Cache {
-
     private final ConcurrentHashMap<Integer, Base> cache = new ConcurrentHashMap<>();
 
     public void add(Base model) {
@@ -13,7 +12,7 @@ public class Cache {
     public void update(Base model) throws OptimisticException {
         cache.computeIfPresent(model.getId(), (id, data) -> {
             if (data.getVersion() != model.getVersion()) {
-                throw new OptimisticException("version has already changed");
+                throw new OptimisticException("Version has already changed");
             }
             data.changeVersion(data.getVersion() + 1);
             data.setName(model.getName());
