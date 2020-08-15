@@ -2,3 +2,7 @@
 [![codecov](https://codecov.io/gh/alexanderlebedev1989/job4j_threads/branch/master/graph/badge.svg)](https://codecov.io/gh/alexanderlebedev1989/job4j_threads)
 
 Проект "Threads"
+
+В курсе проводилась работа с ветками git.
+
+Создание ветки из IDEA
