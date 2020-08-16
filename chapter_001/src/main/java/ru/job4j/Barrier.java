@@ -3,6 +3,7 @@ package ru.job4j;
 public class Barrier {
 
     private boolean flag = false;
+
     private final Object monitor = this;
 
     public void on() {
